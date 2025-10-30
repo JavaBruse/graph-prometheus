@@ -1,0 +1,5 @@
+server: 80
+
+spring:
+    application:
+        name: graph-prometheus
