@@ -1,5 +1,22 @@
-server: 80
+server:
+    port: 80
 
-spring:
-    application:
-        name: graph-prometheus
+management:
+    server:
+        port: 80
+    endpoints:
+        web:
+            exposure:
+                include: health, info, prometheus, metrics
+    endpoint:
+        prometheus:
+            enabled: true
+        health:
+            enabled: true
+        metrics:
+            enabled: true
+    metrics:
+        export:
+            prometheus:
+                enabled: true
+
