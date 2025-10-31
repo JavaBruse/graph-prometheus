@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @RestController
@@ -14,24 +15,18 @@ public class MainController {
         return "Главная страница Спринг графана прометеус";
     }
 
-    private static final List<byte[]> MEMORY_LEAK = new ArrayList<>();
-    //http://localhost:80/load?gigabytes=5 - 5 GB
+    private static final List<String> MEMORY_LEAK = new ArrayList<>();
+
     @GetMapping("/load")
-    public String heavyLoad(@RequestParam(defaultValue = "1") int gigabytes) {
-        if (gigabytes > 10) {
-            gigabytes = 10; // ограничение для безопасности
+    public String heavyLoad() {
+
+        for (int i = 0; i < 200000; i++) {
+            char[] chars = new char[500];
+            Arrays.fill(chars, (char) ('A' + (i % 26)));
+            MEMORY_LEAK.add(new String(chars));
         }
 
-        int chunks = gigabytes * 100; // 100 chunks по 10 MB = 1 GB
-        for (int i = 0; i < chunks; i++) {
-            MEMORY_LEAK.add(new byte[10 * 1024 * 1024]); // 10 MB
-            try {
-                Thread.sleep(10); // меньше задержка для быстрого выделения
-            } catch (InterruptedException ignored) {}
-        }
-
-        return String.format("Allocated %d GB of non-collectable memory! Total: %d MB",
-                gigabytes, MEMORY_LEAK.size() * 10);
+        return "Loaded 200MB! Total: " + MEMORY_LEAK.size();
     }
 
     @GetMapping("/clear")

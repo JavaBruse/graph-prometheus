@@ -6,4 +6,4 @@ scrape_configs:
     static_configs:
       - targets: ['java-app:80']
     metrics_path: '/actuator/prometheus'
-    scrape_interval: 5s
+    scrape_interval: 1s

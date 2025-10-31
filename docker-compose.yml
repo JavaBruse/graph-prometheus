@@ -1,12 +1,18 @@
 version: '3.8'
 services:
-  # Java приложение
   java-app:
     build: .
     ports:
       - "80:80"
     networks:
       - monitoring
+    deploy:
+      resources:
+        limits:
+          memory: 2G
+    environment:
+      - JAVA_OPTS=-Xmx1024m -Xms256m
+
   # Prometheus
   prometheus:
     image: prom/prometheus
