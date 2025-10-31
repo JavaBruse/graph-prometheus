@@ -9,9 +9,9 @@ services:
     deploy:
       resources:
         limits:
-          memory: 2G
+          memory: 1G
     environment:
-      - JAVA_OPTS=-Xmx1024m -Xms256m
+      - JAVA_OPTS=-Xmx512m -Xms256m
 
   # Prometheus
   prometheus:
